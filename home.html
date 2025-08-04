@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scrapbook Sayang & Ayang 💞</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>💗 Scrapbook Cinta Kita 💖</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="content">
+    <h2>Selamat Datang di Scrapbook Kita, Sayang & Ayang 💌</h2>
+    <p>Ini adalah ruang kenangan kita berdua 💕</p>
+
+    <!-- Tombol navigasi ke Jurnal & Galeri -->
+    <button onclick="window.location.href='jurnal.html'">Lihat Jurnal Kita 📖</button>
+    <button onclick="window.location.href='gallery.html'">Lihat Galeri Foto 📸</button>
+  </div>
+
+  <script src="firebase.js"></script>
+  <script>
+    // Logout
+    function logout() {
+      firebase.auth().signOut()
+        .then(() => {
+          alert("Kamu berhasil logout, sayang! 💖");
+          window.location.href = "auth.html"; // Kembali ke login
+        })
+        .catch(err => {
+          alert("Gagal logout: " + err.message);
+        });
+    }
+
+    // Cek apakah sudah login dan pasangan terhubung
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "auth.html"; // Redirect ke login
+      } else {
+        const uid = user.uid;
+        firebase.database().ref("users/" + uid).once("value").then(snap => {
+          const data = snap.val();
+          if (!data.coupleWith) {
+            alert("Kamu belum terhubung dengan pasangan, masukkan kode undangan!");
+            window.location.href = "invite.html"; // Redirect ke invite
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

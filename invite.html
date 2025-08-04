@@ -1,0 +1,55 @@
+<!-- invite.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Undang Pasanganmu 💖</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>💞 Undang Sayangmu 💞</h2>
+    <p>Kode kamu: <span id="myCode">...</span></p>
+    <input type="text" id="coupleCode" placeholder="Masukkan kode pasangan">
+    <button onclick="connectCouple()">Hubungkan 💘</button>
+  </div>
+
+  <script src="firebase.js"></script>
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const uid = user.uid;
+        firebase.database().ref("users/" + uid).once("value").then(snap => {
+          const data = snap.val();
+          document.getElementById("myCode").textContent = data.coupleCode;
+        });
+      }
+    });
+
+    function connectCouple() {
+      const inputCode = document.getElementById("coupleCode").value.trim();
+      const user = firebase.auth().currentUser;
+
+      firebase.database().ref("users").once("value").then(snap => {
+        let found = null;
+        snap.forEach(child => {
+          const val = child.val();
+          if (val.coupleCode === inputCode) {
+            found = child.key;
+          }
+        });
+
+        if (found) {
+          // Hubungkan keduanya
+          firebase.database().ref("users/" + user.uid + "/coupleWith").set(found);
+          firebase.database().ref("users/" + found + "/coupleWith").set(user.uid);
+          alert("Kalian sekarang sudah berpasangan 💞");
+          window.location.href = "home.html";
+        } else {
+          alert("Kode pasangan tidak ditemukan 😢");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

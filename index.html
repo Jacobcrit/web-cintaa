@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Scrapbook</title>
+  <style>
+    body {
+      background: #ffeef6;
+      font-family: 'Fredoka', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    h2 {
+      color: #f06292;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>💕 Login Scrapbook</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p>Belum punya akun? <a href="#" onclick="register()">Daftar</a></p>
+  </div>
+
+  <script type="module">
+    import { auth } from './firebase.js';
+    import {
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    async function login() {
+      try {
+        await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+        window.location.href = "scrapbook.html";
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    async function register() {
+      try {
+        await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+        alert("Pendaftaran berhasil! Silakan login.");
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  </script>
+</body>
+</html>

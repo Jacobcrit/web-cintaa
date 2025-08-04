@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Jurnal Cinta Kita 💌</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffeef6;
+      margin: 0;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .cute-btn {
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-family: 'Comic Sans MS', cursive;
+      color: white;
+      margin: 8px 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+      transition: all 0.3s ease-in-out;
+      position: relative;
+    }
+    .cute-btn::after {
+      content: '✨';
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.8;
+    }
+    .cute-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #fcb1c3, #ffdde1);
+    }
+    .jurnal-entry {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .jurnal-entry button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: pink;
+      border: none;
+      border-radius: 10px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    .search-section {
+      display: none;
+    }
+    #spotifyResults, #pinterestResults {
+      margin-top: 10px;
+    }
+    .result-item {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📖 Jurnal Cinta Kita</h1>
+    <button class="cute-btn" onclick="addJurnal()">➕ Tambah Jurnal</button>
+    <button class="cute-btn" onclick="location.href='https://wa.me/6283150850721'">💌 Chat Sayang di WA</button>
+    <button class="cute-btn" onclick="window.location.href='galeri.html'">📷 Galeri Foto & Lagu</button>
+    <button class="cute-btn" onclick="window.location.href='linktree.html'">🔗 Linktree Kita</button>
+  </div>  <div id="jurnalContainer"></div>  <div style="margin-top: 30px; text-align:center; font-size:18px; color:#ff69b4; font-weight:bold;">
+    ✍️ Web kita berdua bersama sayangg di pake tiapp harii yaaa 💖
+  </div>  <script>
+    let jurnalList = [];
+
+    function renderJurnal() {
+      const container = document.getElementById("jurnalContainer");
+      container.innerHTML = "";
+      jurnalList.forEach((j, i) => {
+        const el = document.createElement("div");
+        el.className = "jurnal-entry";
+        el.innerHTML = `
+          <p>${j}</p>
+          <button onclick="hapusJurnal(${i})">🗑️</button>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function addJurnal() {
+      const text = prompt("Tulis isi jurnal kamu hari ini 💌:");
+      if (text) {
+        jurnalList.push(text);
+        renderJurnal();
+      }
+    }
+
+    function hapusJurnal(index) {
+      if (confirm("Kamu yakin mau hapus jurnal ini? 😢")) {
+        jurnalList.splice(index, 1);
+        renderJurnal();
+      }
+    }
+  </script></body>
+</html>
